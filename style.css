@@ -68,7 +68,7 @@ html {
 }
 .outer {
   margin: 10px 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   width: 286px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -98,22 +98,39 @@ html {
   outline: none !important;
   margin-left: 10px;
 }
-.btn-delete{
+.btn-delete {
   width: 20px;
   height: 20px;
-  cursor:pointer;
+  cursor: pointer;
   align-self: center;
   margin-right: 30px;
 }
-.btn-delete:hover rect{
-  fill:#833AE0;
+.btn-delete:hover rect {
+  fill: #833ae0;
 }
-.btn-delete:hover path{
+.btn-delete:hover path {
   stroke: white;
 }
-.btn-add{
+.btn-add {
+  background: #833ae0;
+  border-radius: 71px;
   width: 150px;
   height: 42px;
   margin: auto;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.btn {
+  justify-content: space-between;
+  justify-self: center;
+}
+.plus {
+  background: #9953f1;
+  border-radius: 71px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
