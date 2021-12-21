@@ -31,12 +31,21 @@ class TaskList {
     this.idCount = 0;
     this.container = document.querySelector(`.tasks-list-cont`);
     this.taskList = [];
+    this.draggableTask = null;
   }
   addTask() {
     const task = new Task(this.idCount++, (id) => this.deleteTask(id));
 
     this.taskList.push(task);
     this.container.append(task.container);
+
+    task.container.draggable = true;
+
+    const eventListener = (e) => this.dadEventListener(e);
+
+    task.container.addEventListener(`dragstart`, eventListener);
+    task.container.addEventListener(`dragenter`, eventListener);
+    task.container.addEventListener(`dragend`, eventListener);
   }
   deleteTask(id) {
     const deletedTask = this.taskList.find((task) => task.id === id);
@@ -49,14 +58,46 @@ class TaskList {
       if (a.input.value > b.input.value) {
         return sortStatus == `down` ? 1 : -1;
       } else if (a.input.value < b.input.value) {
-       return sortStatus == `down` ? -1 : 1;
+        return sortStatus == `down` ? -1 : 1;
       }
-      return 0
+      return 0;
     });
 
-    this.taskList.forEach( item => {
-     this.container.append(item.container)
-    })
+    this.taskList.forEach((item) => {
+      this.container.append(item.container);
+    });
+  }
+  dadEventListener(e) {
+    switch (e.type) {
+      case `dragstart`:
+        this.draggableTask = e.currentTarget;
+        break;
+      case `dragenter`:
+        if(
+          e.currentTarget !== this.draggableTask &&
+          e.currentTarget.classList.contains(`task`)
+          ){
+            this.changeTasks(this.draggableTask, e.currentTarget)
+
+          }
+        break;
+      case `dragend`:
+        this.draggableTask = null;
+        break;
+    }
+  }
+  changeTasks(task1,task2) {
+    const children = [...this.container.children];
+    const index1 = children.indexOf(task1);
+    const index2 = children.indexOf(task2);
+    if(index1 < index2){
+      this.container.insertBefore(task2,task1)
+
+    } else {
+      this.container.insertBefore(task1, task2)
+
+    }
+
   }
 }
 class Task {
@@ -91,6 +132,7 @@ class Task {
     btnDelete.addEventListener(`click`, () => {
       deleteTask(this.id);
     });
-    this.input = this.container.querySelector('input')
+    this.input = this.container.querySelector("input");
+    
   }
 }
